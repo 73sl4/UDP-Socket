@@ -3,7 +3,14 @@
   include('./udphandler.php');
   include('./tracker.php');
 
-  $tracker = new Tracker;
+  try
+  {
+    $tracker = new Tracker;
+  }
+  catch (\Exception $e)
+  {
+    exit(0);
+  }
 
   $start = microtime(true);
 
@@ -13,7 +20,14 @@
     $tracker->decrement('check'.$i);
     $tracker->timing('check'.$i, time());
 
-    $tracker->send();
+    try
+    {
+      $tracker->send();
+    }
+    catch (\Exception $e)
+    {
+      echo "Exception Occurred";
+    }
   }
 
   $end = microtime(true);
